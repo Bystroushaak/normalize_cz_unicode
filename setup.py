@@ -52,6 +52,10 @@ setup(
         "Programming Language :: Python :: 2",
         'Programming Language :: Python :: 2.7',
         "License :: OSI Approved :: MIT License",
+        "Development Status :: 5 - Production/Stable",
+        "Natural Language :: Czech",
+        "Topic :: Text Processing",
+        "Topic :: Text Processing :: General",
     ],
     license='MIT',
 
