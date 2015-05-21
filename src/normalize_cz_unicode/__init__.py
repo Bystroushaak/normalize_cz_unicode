@@ -17,6 +17,28 @@ TRANSLATION_TABLE.update({udash: "-" for udash in _DASH_VARIANTS})
 
 
 # Functions & classes =========================================================
+def cached(fn):
+    """
+    Cache decorator. This decorator simply uses ``*args`` as lookup key for
+    cache dict.
+
+    If you are using python3, use functools.lru_cache() instead.
+    """
+    cache = {}
+
+    def cached_decorator(*args, **kwargs):
+        if args in cache:
+            return cache[args]
+
+        val = fn(*args, **kwargs)
+        cache[args] = val
+
+        return val
+
+    return cached_decorator
+
+
+@cached
 def _really_normalize_char(char):
     """
     Use NFKD normalization to `char`. Return ``?`` if character couldn't be
@@ -38,6 +60,7 @@ def _really_normalize_char(char):
     return new_char
 
 
+@cached
 def _normalize_char(char):
     """
     Use :attr:`.TRANSLATION_TABLE` to translate `char`, or
@@ -53,6 +76,7 @@ def _normalize_char(char):
     return TRANSLATION_TABLE.get(char, _really_normalize_char(char))
 
 
+@cached
 def _is_same_char(char):
     """
     Try to convert `char` to ``latin2`` encoding and compare them.
